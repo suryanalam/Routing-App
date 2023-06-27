@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+
+//components:
+import Navbar from './components/Navbar';
+
+//pages:
+import Code from './pages/Code';
+import Eat from './pages/Eat';
+import Sleep from './pages/Sleep';
+import Debug from './pages/Debug';
+import Test from './pages/Test';
+import Users from './pages/Users';
+import UserDetails from './pages/UserDetails';
 
 function App() {
+  
+  const navigate = useNavigate();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className="App">
+      <Navbar />
+      <Routes>
+          <Route path='/' element = {<p>What's your mood right now ?</p>} />
+          <Route path='/Code' element = {<Code />}>
+            {
+              ['','Debug'].map((path,index)=>(<Route path={path} key={index} element = {<Debug />} />))
+            }
+            <Route path='Test' element = {<Test />} />
+          </Route>
+          <Route path="/Eat" element={<Eat />} />
+          <Route path="/Sleep" element={<Sleep />} />
+          <Route path='/Users' element = {<Users />} >
+            <Route path=':id' element={<UserDetails />} />
+          </Route>
+          <Route path="*" element = {<p>Error: It's not my Job</p>} />
+      </Routes>
+
+      <button onClick={()=>{navigate(-1)}}>GO BACK</button>
+
+    </section>
   );
 }
 
